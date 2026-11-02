@@ -1,0 +1,29 @@
+# secrets -- never commit a key
+.env
+.env.*
+*.key
+secrets*
+
+# the source film and anything cut from it
+samples/
+data/
+out/*.jsonl
+out/*.json
+out/demo_clips/
+
+# Jobs are working data: uploaded films, cut excerpts, a director's own marks.
+# Everything under out/jobs is excluded, then the one pre-scored demo is allowed
+# back in so judges can run the app with no API key and see a real result.
+# Sintel is CC BY (Blender Foundation), so shipping these excerpts is fine as
+# long as it stays credited -- see README.
+out/jobs/*
+!out/jobs/demo/
+!out/jobs/demo/**
+out/jobs/demo/source.*
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+Thumbs.db

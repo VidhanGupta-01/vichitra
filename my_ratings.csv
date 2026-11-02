@@ -1,0 +1,19 @@
+clip,valence,arousal,note
+clip_0000_000300,80,60,first pass
+clip_0001_000310,20,80,first pass
+clip_0002_000320,30,85,re-rated on word scale
+clip_0003_000330,20,80,first pass
+clip_0004_000340,45,35,first pass
+clip_0005_000350,70,45,re-rated on word scale
+clip_0006_000360,55,45,first pass
+clip_0007_000370,55,40,first pass
+clip_0008_000380,45,60,first pass
+clip_0009_000390,45,40,first pass
+clip_0010_000400,58,45,re-rated on word scale
+clip_0011_000410,58,58,re-rated on word scale
+clip_0012_000420,45,55,first pass
+clip_0013_000430,35,65,first pass
+clip_0014_000440,45,60,first pass
+clip_0015_000450,70,58,re-rated on word scale
+clip_0016_000460,70,58,re-rated on word scale
+clip_0017_000470,70,35,first pass
