@@ -55,22 +55,29 @@ SCORE_SCHEMA = {
 #
 # This is the v2 prompt. A v3 was tried on 2026-11-02 that added worked valence
 # anchors ("ordinary footage is 45-55", "grim but absorbing belongs at 50-70") to
-# correct a measured -11.8 valence bias. Measured against a human annotator over the
-# same 18 excerpts, v3 was worse on both scales and was reverted:
+# correct a measured -11.8 valence bias, then was reverted. Scored against the same
+# 18 human-annotated excerpts:
 #
-#                      v2                      v3
-#   valence rho     +0.30                   +0.13
-#   valence bias    -11.8                   +10.5
-#   valence sd       15.3                    8.4   (annotator's own sd: 17.0)
-#   arousal rho     +0.61 (CI +0.14,+0.86)  +0.38 (CI crosses zero)
+#                     v2        v3        v4 (= v2 prompt, re-run)
+#   valence rho      +0.30     +0.13     +0.27
+#   valence bias     -11.8     +10.5      -9.8
+#   valence sd        15.3       8.4      15.6     (annotator's own sd: 17.0)
+#   arousal rho      +0.61     +0.38     +0.38
 #
-# The anchors did move the four clips they targeted onto the annotator's numbers, but
-# they shifted everything else up with them: excerpts the annotator rated 20-30 came
-# back at 58-68, so the model lost its low end entirely. The valence wording also
-# leaked into arousal and halved the one correlation that was working.
+# Why it was reverted: the anchors moved the four targeted clips onto the annotator's
+# numbers but dragged everything else up with them. Excerpts the annotator rated 20-30
+# came back at 58-68, so the model lost its low end and its spread collapsed to roughly
+# half the annotator's. Range compression, not discrimination.
+#
+# What the v4 column shows, and why it matters more: v4 re-runs the v2 prompt unchanged
+# and gives arousal +0.38, not +0.61. So the arousal difference between v2 and v3 was
+# NOT caused by the prompt -- it is run-to-run variance. At n=18 the correlation
+# estimate itself swings by ~0.2, which is the real reason no accuracy claim is made
+# anywhere in this repo.
 #
 # Lesson: anchoring one scale on 18 examples compresses range rather than teaching
-# discrimination. Do not re-add anchors without a much larger validation set.
+# discrimination, and 18 examples cannot tell you whether a prompt change helped.
+# Do not re-add anchors without a much larger validation set.
 SYSTEM = """You are a reaction-prediction model for filmmakers. You watch a short film \
 excerpt, including its audio track, and predict how a general cinema audience would \
 visibly react while watching it.
