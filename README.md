@@ -5,7 +5,7 @@
 *chitra* : picture. *vichitra* : strange, wonderful.
 
 Built solo by Vidhan Gupta for the Meta Global AI Developer Hackathon
-(Indie Developer track), 27 October – 4 November 2026.
+(Indie Developer track), 27 October - 4 November 2026.
 
 ---
 
@@ -30,7 +30,7 @@ to Meta's Muse Spark *with its audio*, and returns a reaction curve across the w
 sequence: valence (how pleasant it is to watch) and arousal (how activating).
 
 Then the part that matters. Mark what you **intended** each stretch to do, in plain
-words — *calm*, *attentive*, *gripped*. The tool draws your intent against what the
+words : *calm*, *attentive*, *gripped*. The tool draws your intent against what the
 cut actually delivers and flags every scene where the two diverge by 20 points or
 more. Download that as a single self-contained HTML file and send it to your editor;
 they open it in any browser, no install and no account, and see timecodes with
@@ -38,13 +38,13 @@ reasons.
 
 A test audience can tell you how they felt. It cannot tell you where the cut diverges
 from what you meant, because they don't know what you meant. **Intent is an input
-here — that is the thing this tool has that a screening room doesn't.**
+here : that is the thing this tool has that a screening room doesn't.**
 
 ## Meta models used, and where each one runs
 
 | Model | Where it runs | What it does here |
 |---|---|---|
-| `muse-spark-1.2` | Meta Model API (`https://api.meta.ai/v1`) | Watches each excerpt with its audio track and returns the structured reaction prediction — valence, arousal, an expression distribution, and the craft cues behind the call. |
+| `muse-spark-1.2` | Meta Model API (`https://api.meta.ai/v1`) | Watches each excerpt with its audio track and returns the structured reaction prediction : valence, arousal, an expression distribution, and the craft cues behind the call. |
 
 **Why 1.2 and not 1.3:** Meta's own model documentation states audio understanding in
 Muse Spark 1.3 is not fully supported and may be degraded, and recommends 1.2 for
@@ -62,7 +62,7 @@ Meta Model API's compatible endpoint.
 
 ## Run it
 
-Needs Python 3.10+, `ffmpeg` on PATH, and — only for scoring new footage — a Meta
+Needs Python 3.10+, `ffmpeg` on PATH, and - only for scoring new footage - a Meta
 Model API key.
 
 ```bash
@@ -215,7 +215,7 @@ the same kind of unit.
 the single-word label does not, and the label set has no word for joy or awe, so a
 joyful excerpt produced a flat distribution with no winner. The plain reading
 ("pleasant, energising", "low engagement") is derived from the two stable numbers
-using the circumplex model of affect — the frame valence and arousal come from.
+using the circumplex model of affect; the frame valence and arousal come from.
 
 ## What it is not
 
@@ -228,7 +228,7 @@ look at a scene again rather than a verdict on it.
 
 **It cannot detect confusion.** A real audience tells you *"I didn't understand why
 she went back."* This cannot, and that is the largest single gap against a screening
-room — along with individual qualitative reactions of the *"I found the protagonist
+room, along with individual qualitative reactions of the *"I found the protagonist
 unlikeable"* kind. Comedy is the weakest case of all, since whether a joke lands is
 enormously audience-dependent.
 
@@ -237,7 +237,7 @@ reaction varies by culture, age, and whether someone is watching alone at 2am or
 full theatre. The model has one undifferentiated prior.
 
 **It sees each excerpt alone.** Fixed windows cut across shots and beats, and context
-from earlier in the film — most of what makes a payoff land — sits outside the window.
+from earlier in the film; most of what makes a payoff land, sits outside the window.
 
 **Marking intent is open to anchoring.** The interface shows the predicted curve
 before you mark, so a director can drift toward it. Mark intent first, or without
@@ -245,12 +245,12 @@ studying the curve.
 
 ## Data and attribution
 
-- **Demo film** — *Sintel* (2010), Blender Foundation, licensed CC BY 3.0,
+- **Demo film** : *Sintel* (2010), Blender Foundation, licensed CC BY 3.0,
   <https://durian.blender.org>. Eighteen 10-second excerpts from 05:00–08:00 are
   redistributed in `out/jobs/demo/` under that licence so the app runs without an API
   key. Licence screenshot in `licence_sintel.png`.
-- **Human annotations** — `my_ratings.csv`, made by the author for this project.
-- **LIRIS-ACCEDE** — a larger public evaluation against
+- **Human annotations** : `my_ratings.csv`, made by the author for this project.
+- **LIRIS-ACCEDE** : a larger public evaluation against
   <https://liris-accede.ec-lyon.fr> (CC BY-NC-SA) is supported by `evaluate.py` but
   was not completed within the hackathon window. No dataset files are redistributed
   here; `evaluate.py` reads a local copy you download yourself.
