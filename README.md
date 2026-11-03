@@ -1,8 +1,8 @@
 # ViChitra
 
-**Predicted audience reaction, scene by scene — before anyone has watched it.**
+**Predicted audience reaction, scene by scene - before anyone has watched it.**
 
-*chitra* — picture. *vichitra* — strange, wonderful.
+*chitra* : picture. *vichitra* : strange, wonderful.
 
 Built solo by Vidhan Gupta for the Meta Global AI Developer Hackathon
 (Indie Developer track), 27 October – 4 November 2026.
@@ -12,13 +12,13 @@ Built solo by Vidhan Gupta for the Meta Global AI Developer Hackathon
 ## The problem
 
 Filmmakers go blind to their own cut. You were there at 3am when you shot it, you
-know what the scene cost and what it was supposed to mean — so when you watch it
+know what the scene cost and what it was supposed to mean; so when you watch it
 back, you see your intention rather than the result. Your friends say it's good.
 You find out it isn't at the premiere, in a room, in public, with the film locked.
 
 Studios buy their way out of this with test screenings. India produces more feature
-films than any country on earth — [1,724 in 2013](https://guinnessworldrecords.com/world-records/largest-annual-film-output)
-by the Central Board of Film Certification's count — and the overwhelming majority
+films than any country on earth; [1,724 in 2013](https://guinnessworldrecords.com/world-records/largest-annual-film-output)
+by the Central Board of Film Certification's count, and the overwhelming majority
 are regional, independent, student and creator films that will never get one.
 
 **ViChitra doesn't compete with a test screening. It competes with not having one.**
@@ -48,8 +48,8 @@ here — that is the thing this tool has that a screening room doesn't.**
 
 **Why 1.2 and not 1.3:** Meta's own model documentation states audio understanding in
 Muse Spark 1.3 is not fully supported and may be degraded, and recommends 1.2 for
-audio work. The audio track carries much of the reaction here — score, sound design,
-silence, delivery — so the pipeline uses 1.2 deliberately.
+audio work. The audio track carries much of the reaction here : score, sound design,
+silence, delivery - so the pipeline uses 1.2 deliberately.
 
 Each excerpt is uploaded through the Files API with `purpose: "user_data"` and
 referenced as an `input_file` block on the Responses API, with a strict
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 python app.py          # then open http://localhost:8000
 ```
 
-### For judges — the fastest honest path
+### For judges - the fastest honest path
 
 **The pre-scored demo needs no API key.** Run the two commands above, open
 `localhost:8000`, and click the Sintel job listed at the bottom of the upload page.
@@ -94,13 +94,13 @@ python smoke_test.py            # confirms auth, video upload, audio, structured
 finishes in under a minute. That economics is the whole product: it makes this a
 check you run *during* the edit, not a verdict you get once at the end.
 
-**Reproducible.** Same cut in, same curve out — run-to-run Spearman of **+0.88**
+**Reproducible.** Same cut in, same curve out; run-to-run Spearman of **+0.88**
 on valence and **+0.86** on arousal, and a single excerpt scored five times varies
 by about 3 points. The intent comparison depends entirely on this, because a curve
 that moved every run would make the gap meaningless.
 
 **It explains itself.** Every excerpt comes back with the craft cues behind the
-number — *"locked-off wide, no movement for 6s"*, *"hard cut on the score sting"*,
+number - *"locked-off wide, no movement for 6s"*, *"hard cut on the score sting"*,
 *"driving percussive score accelerating under frantic chase"*. A critic gives you a
 verdict. This gives your editor something to change.
 
@@ -109,12 +109,12 @@ you meant, because they don't know what you meant. Only the director does. This 
 the one tool in this space where that goes in the comparison.
 
 **It leaves the laptop as a single file.** Mark intent at home, hit Download, email
-one self-contained HTML page. The cutting room opens it in any browser — no install,
-no account, no server — and sees timecodes with reasons.
+one self-contained HTML page. The cutting room opens it in any browser : no install,
+no account, no server and sees timecodes with reasons.
 
 **Judges can run it with no API key.** The pre-scored Sintel demo ships in the repo.
 
-**Three real bugs found by measuring rather than guessing** — a 184-second-per-clip
+**Three real bugs found by measuring rather than guessing** : a 184-second-per-clip
 polling stall, a model label that contradicted its own output, and silent response
 truncation. All three are documented below with the measurements that caught them.
 
@@ -148,7 +148,7 @@ seeing any model output (`my_ratings.csv`):
 | valence | +0.27 | 0.27 | −0.24 to +0.72 | −9.8 | 17.2 |
 
 Both correlations point the right way, and the model's spread closely matches the
-annotator's — valence sd 15.8 against 17.0, arousal 16.3 against 14.7 — so it is
+annotator's : valence sd 15.8 against 17.0, arousal 16.3 against 14.7 ; so it is
 discriminating between excerpts rather than hedging toward the middle. The arousal
 bias is +0.2 points, essentially zero.
 
@@ -169,7 +169,7 @@ estimate itself swings by around 0.2 between runs at this sample size. Reporting
 
 Measuring a −11.8 valence bias, worked anchors were added to the valence scale
 (*"ordinary footage is 45-55"*, *"grim but absorbing belongs at 50-70"*). They moved
-the four targeted excerpts onto the annotator's numbers — and dragged everything else
+the four targeted excerpts onto the annotator's numbers, and dragged everything else
 up with them. Excerpts the annotator rated 20–30 came back at 58–68, and the model's
 spread collapsed to sd 8.4 against the annotator's 17.0. Range compression, not
 discrimination. Reverted; the full numbers are in the comment at the top of
@@ -184,7 +184,7 @@ discrimination. Reverted; the full numbers are in the comment at the top of
 - **The model's own `dominant` label contradicts its own numbers.** Over repeated runs
   it named reactions holding as little as 3% of the distribution it generated in the
   same response. The label is now derived from the distribution's argmax, and it is
-  not shown in the interface at all — the plain-English reading comes from valence and
+  not shown in the interface at all; the plain-English reading comes from valence and
   arousal, which reproduce. The model's claim is kept in the JSON for inspection.
 - **Responses can truncate silently.** Muse Spark spends output tokens on reasoning
   before emitting JSON; at a 4000-token ceiling one excerpt in eighteen came back cut
@@ -199,7 +199,7 @@ Barrett, Adolphs, Marsella, Martinez and Pollak reviewed
 [over 1,000 published findings](https://www.psychologicalscience.org/news/releases/emotion-expressions-pspi.html)
 in *Psychological Science in the Public Interest* (2019) and concluded that *"it is
 not possible to confidently infer happiness from a smile, anger from a scowl or
-sadness from a frown"* — people scowl when angry roughly 25% of the time, and also
+sadness from a frown"*, people scowl when angry roughly 25% of the time, and also
 scowl when concentrating. They note that emotion-detection products apply *"what are
 mistakenly believed to be the scientific facts."* The debate is live rather than
 settled, but it is reason enough to analyse content instead of people. **No faces are
