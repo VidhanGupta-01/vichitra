@@ -23,6 +23,12 @@ out/jobs/demo/source.*
 
 __pycache__/
 *.pyc
+
+/Untitled video_*/
+/Swiftplay*/
+/Modern gaming*/
+/ENGPPT_*/
+
 .venv/
 venv/
 .DS_Store
