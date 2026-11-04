@@ -374,12 +374,27 @@ def report(job: str, download: int = 0):
         svg.append('<path fill="none" stroke="#E8B33C" stroke-width="2.5" d="' +
                    " ".join(("M" if i == 0 else "L") + f"{X(i):.1f} {Y(r['arousal']):.1f}"
                             for i, r in enumerate(clips)) + '"/>')
+    # Intent is drawn only where it was actually marked. One continuous path through
+    # every marked point would run straight across unmarked stretches and imply an
+    # intention the director never stated.
     pts = [(i, r) for i, r in enumerate(clips) if r["intent"] is not None]
-    if len(pts) > 1:
-        svg.append('<path fill="none" stroke="#4FC3D9" stroke-width="2" '
-                   'stroke-dasharray="5 4" d="' +
-                   " ".join(("M" if j == 0 else "L") + f"{X(i):.1f} {Y(r['intent']):.1f}"
-                            for j, (i, r) in enumerate(pts)) + '"/>')
+    runs, cur = [], []
+    for i, r in pts:
+        if cur and i != cur[-1][0] + 1:
+            runs.append(cur)
+            cur = []
+        cur.append((i, r))
+    if cur:
+        runs.append(cur)
+    for run in runs:
+        if len(run) > 1:
+            svg.append('<path fill="none" stroke="#4FC3D9" stroke-width="2" '
+                       'stroke-dasharray="5 4" d="' +
+                       " ".join(("M" if j == 0 else "L") + f"{X(i):.1f} {Y(r['intent']):.1f}"
+                                for j, (i, r) in enumerate(run)) + '"/>')
+    for i, r in pts:
+        svg.append(f'<circle cx="{X(i):.1f}" cy="{Y(r["intent"]):.1f}" r="3.5" '
+                   f'fill="#4FC3D9"/>')
     for i, r in enumerate(clips):
         if i % max(len(clips) // 6, 1) == 0:
             svg.append(f'<text x="{X(i)}" y="{H-8}" fill="#5C6473" font-size="11" '
@@ -751,9 +766,20 @@ function draw(){
        `L${x(i+1)} ${y(b.intent)} L${x(i)} ${y(a.intent)} Z" fill="var(--gap)" `+
        `opacity="${big?0.26:0.08}"/>`;
   }
+  // Draw intent only across stretches that were actually marked -- a single path
+  // through every marked point would imply an intention for the gaps between them.
   const pts=[]; c.forEach((d,i)=>{ if(d.intent!=null) pts.push([i,d]); });
-  if(pts.length>1) s+=`<path fill="none" stroke="var(--intended)" stroke-width="2"
-    stroke-dasharray="5 4" d="${pts.map(([i,d],j)=>(j?'L':'M')+x(i).toFixed(1)+' '+y(d.intent).toFixed(1)).join(' ')}"/>`;
+  const runs=[]; let cur=[];
+  for(const p of pts){
+    if(cur.length && p[0]!==cur[cur.length-1][0]+1){ runs.push(cur); cur=[]; }
+    cur.push(p);
+  }
+  if(cur.length) runs.push(cur);
+  for(const run of runs){
+    if(run.length<2) continue;
+    s+=`<path fill="none" stroke="var(--intended)" stroke-width="2"
+      stroke-dasharray="5 4" d="${run.map(([i,d],j)=>(j?'L':'M')+x(i).toFixed(1)+' '+y(d.intent).toFixed(1)).join(' ')}"/>`;
+  }
   s+=`<path fill="none" stroke="var(--predicted)" stroke-width="2.5" stroke-linejoin="round"
        d="${c.map((d,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(d.arousal).toFixed(1)).join(' ')}"/>`;
   const step = Math.max(Math.floor(c.length/7),1);
